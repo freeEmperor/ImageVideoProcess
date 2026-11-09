@@ -1,0 +1,55 @@
+# ---- uv / Python ----
+.venv/
+.uv-cache/
+.uv-python/
+*.py[cod]
+__pycache__/
+*.egg-info/
+
+# ---- 打包产物 ----
+build/
+dist/
+*.spec
+*.spec.bak
+*.build/
+*.dist/
+*.onefile-build/
+*.pyd
+
+# ---- 输出目录 ----
+# processed/ 是处理结果输出目录，不入库；但保留空目录占位，方便克隆后直接跑
+processed/*
+!processed/.gitkeep
+
+# ---- 测试 / 类型检查缓存 ----
+.pytest_cache/
+.pytest-tmp/
+.smoke-tmp/
+pytest-cache-files-*/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.nuitka-cache/
+
+# ---- 运行时数据 ----
+*.log
+work/
+output/
+
+# ---- 编辑器 / 系统 ----
+.idea/
+.vscode/
+*.swp
+Thumbs.db
+desktop.ini
+
+# ---- 其他 ----
+.env
+.env.*
+!.env.example
+*.bak
+*.bak-*
+/提示词*.txt
+log.md
+info.md
