@@ -1,4 +1,4 @@
-"""生成打包用的应用图标 ``assets/app.ico``。
+"""生成打包用的应用图标 ``src/imagevideoprocess/resources/app.ico``。
 
 图标是代码画出来的（不依赖任何美术资源），想换风格直接改这里的配色与图形即可。
 
@@ -15,7 +15,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw
 
 #: 输出路径（相对项目根目录）
-OUTPUT = Path("assets/app.ico")
+OUTPUT = Path("src/imagevideoprocess/resources/app.ico")
 
 #: 图标尺寸（ICO 里同时塞多档，Windows 会按需取用）
 SIZES = (16, 24, 32, 48, 64, 128, 256)

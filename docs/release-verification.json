@@ -1,0 +1,80 @@
+[
+  {
+    "mode": "source",
+    "exit_code": 0,
+    "seconds": 2.672,
+    "gui_ready_seconds": 1.377,
+    "report": {
+      "executable": "C:\\Main\\Code\\ImageVideoProcess\\.venv\\Scripts\\python.exe",
+      "frozen": false,
+      "checks": [
+        "GUI: seven panels, icon, window rendering",
+        "image resize",
+        "image compression",
+        "image conversion including HEIC/AVIF",
+        "six upscaling methods",
+        "image crop",
+        "video resize with audio",
+        "video compression with audio",
+        "video conversion with audio",
+        "video crop with audio",
+        "frame extraction",
+        "all advertised audio formats",
+        "output location"
+      ],
+      "ok": true
+    }
+  },
+  {
+    "mode": "onedir",
+    "exit_code": 0,
+    "seconds": 8.552,
+    "gui_ready_seconds": 6.087,
+    "report": {
+      "executable": "C:\\Main\\Code\\ImageVideoProcess\\build\\release-validation\\20261114-152110\\onedir\\独立发布 copy\\ImageVideoProcess.exe",
+      "frozen": true,
+      "checks": [
+        "GUI: seven panels, icon, window rendering",
+        "image resize",
+        "image compression",
+        "image conversion including HEIC/AVIF",
+        "six upscaling methods",
+        "image crop",
+        "video resize with audio",
+        "video compression with audio",
+        "video conversion with audio",
+        "video crop with audio",
+        "frame extraction",
+        "all advertised audio formats",
+        "output location"
+      ],
+      "ok": true
+    }
+  },
+  {
+    "mode": "onefile",
+    "exit_code": 0,
+    "seconds": 15.891,
+    "gui_ready_seconds": 13.0,
+    "report": {
+      "executable": "C:\\Main\\Code\\ImageVideoProcess\\build\\release-validation\\20261114-152110\\onefile\\独立发布 copy\\ImageVideoProcess.exe",
+      "frozen": true,
+      "checks": [
+        "GUI: seven panels, icon, window rendering",
+        "image resize",
+        "image compression",
+        "image conversion including HEIC/AVIF",
+        "six upscaling methods",
+        "image crop",
+        "video resize with audio",
+        "video compression with audio",
+        "video conversion with audio",
+        "video crop with audio",
+        "frame extraction",
+        "all advertised audio formats",
+        "output location"
+      ],
+      "ok": true
+    }
+  }
+]

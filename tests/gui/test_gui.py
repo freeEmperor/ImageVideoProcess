@@ -11,15 +11,15 @@ import pytest
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
+from media_factory import make_image, make_video  # noqa: E402
 from PySide6.QtWidgets import QApplication  # noqa: E402
 
-from imagevideoprocess.core.paths import PROCESSED_DIRNAME  # noqa: E402
 from imagevideoprocess.gui import features as feature_registry  # noqa: E402
 from imagevideoprocess.gui.main_window import MainWindow  # noqa: E402
 from imagevideoprocess.gui.panels.compress import (
     _DEFAULT_VALUE as DEFAULT_COMPRESS_VALUE,  # noqa: E402
 )
-from media_factory import make_image, make_video  # noqa: E402
+from imagevideoprocess.runtime.paths import PROCESSED_DIRNAME  # noqa: E402
 
 
 @pytest.fixture(scope="session")
@@ -246,7 +246,7 @@ def test_audio_panel_validation(qapp, tmp_dir) -> None:
 
 def test_superres_panel_defaults_and_validation(qapp, tmp_dir) -> None:
     """超分面板：默认方法 / 倍率、下拉框带方法特点、载入图片后按钮可点。"""
-    from imagevideoprocess.core import superres
+    from imagevideoprocess.operations import superres
 
     feature = feature_registry.find_feature("superres")
     assert feature is not None
@@ -293,8 +293,8 @@ def test_superres_panel_defaults_and_validation(qapp, tmp_dir) -> None:
 
 def test_file_card_path_spans_full_row(qapp, tmp_dir) -> None:
     """信息卡片：路径排第一，且横跨整排。"""
-    from imagevideoprocess.core import media_info
     from imagevideoprocess.gui.widgets.filecard import FileInfoCard
+    from imagevideoprocess.media import media_info
 
     video = make_video(tmp_dir / "clip.mp4", seconds=0.5, fps=10, size=(160, 90))
     info = media_info.probe(video)
@@ -465,7 +465,7 @@ def test_light_palette_is_light() -> None:
 
 def test_processed_dir_is_next_to_app() -> None:
     """输出目录固定为「应用目录/processed」。"""
-    from imagevideoprocess.core.paths import app_dir, processed_dir
+    from imagevideoprocess.runtime.paths import app_dir, processed_dir
 
     assert processed_dir(create=False).name == PROCESSED_DIRNAME
     assert processed_dir(create=False).parent == app_dir()

@@ -11,6 +11,7 @@ from __future__ import annotations
 from imagevideoprocess.gui.panels.audio import AudioPanel
 from imagevideoprocess.gui.panels.compress import CompressPanel
 from imagevideoprocess.gui.panels.convert import ConvertPanel
+from imagevideoprocess.gui.panels.crop import CropPanel
 from imagevideoprocess.gui.panels.frames import FramesPanel
 from imagevideoprocess.gui.panels.resize import ResizePanel
 from imagevideoprocess.gui.panels.superres import SuperResPanel
@@ -19,6 +20,7 @@ __all__ = [
     "AudioPanel",
     "CompressPanel",
     "ConvertPanel",
+    "CropPanel",
     "FramesPanel",
     "ResizePanel",
     "SuperResPanel",

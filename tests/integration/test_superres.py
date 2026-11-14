@@ -5,11 +5,12 @@ from __future__ import annotations
 import cv2
 import numpy as np
 import pytest
+from media_factory import make_image, make_video
 from PIL import Image
 
-from imagevideoprocess.core import media_info, superres
 from imagevideoprocess.core.errors import InvalidParameterError
-from media_factory import make_image, make_video
+from imagevideoprocess.media import media_info
+from imagevideoprocess.operations import superres
 
 
 def _blocks_and_noise(tmp_dir, size: int = 200):

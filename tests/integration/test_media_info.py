@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
-from imagevideoprocess.core import media_info
-from imagevideoprocess.core.errors import UnsupportedFormatError
 from media_factory import make_image, make_video
+
+from imagevideoprocess.core.errors import UnsupportedFormatError
+from imagevideoprocess.media import media_info
 
 
 def test_probe_image(tmp_dir) -> None:

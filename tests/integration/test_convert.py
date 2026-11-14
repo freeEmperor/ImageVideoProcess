@@ -3,10 +3,11 @@
 from __future__ import annotations
 
 import pytest
-
-from imagevideoprocess.core import convert, media_info
-from imagevideoprocess.core.errors import InvalidParameterError, UnsupportedFormatError
 from media_factory import make_image, make_video
+
+from imagevideoprocess.core.errors import InvalidParameterError, UnsupportedFormatError
+from imagevideoprocess.media import media_info
+from imagevideoprocess.operations import convert
 
 
 @pytest.mark.parametrize(
@@ -42,7 +43,7 @@ def test_source_format_key_aliases(tmp_dir) -> None:
 def test_convert_image_formats(tmp_dir) -> None:
     """图片转换：扩展名变了、文件名保持原名、分辨率不变、能读回。"""
     src = make_image(tmp_dir / "photo.jpg", size=(200, 150))
-    for key in ("png", "webp", "bmp", "tiff", "avif"):
+    for key in ("png", "webp", "bmp", "tiff", "avif", "heic"):
         target = convert.target_by_key(key, "image")
         result = convert.convert(src, target, out_dir=tmp_dir / "out")
         output = result.outputs[0]

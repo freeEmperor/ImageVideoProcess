@@ -20,18 +20,18 @@ from imagevideoprocess.core.errors import (
     ProcessingError,
     UnsupportedFormatError,
 )
-from imagevideoprocess.core.image_ops import encode_to_bytes
-from imagevideoprocess.core.media_info import probe, register_image_plugins
-from imagevideoprocess.core.paths import processed_dir, unique_path
 from imagevideoprocess.core.progress import CancelToken, ProgressFn, noop_progress
 from imagevideoprocess.core.result import ProcessResult
-from imagevideoprocess.core.video_ops import (
+from imagevideoprocess.media.image_ops import encode_to_bytes
+from imagevideoprocess.media.media_info import probe, register_image_plugins
+from imagevideoprocess.media.video_ops import (
     TranscodeSpec,
     analyze,
     audio_compatible,
     can_encode_aac,
     transcode,
 )
+from imagevideoprocess.runtime.paths import processed_dir, unique_path
 
 #: 输出文件名后缀标记
 SUFFIX_TAG = "compressed"

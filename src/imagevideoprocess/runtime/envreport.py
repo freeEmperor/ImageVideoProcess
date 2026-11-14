@@ -12,24 +12,14 @@ from dataclasses import dataclass
 
 #: 关心的依赖：(显示名, 发行包名, 备注)
 TRACKED: tuple[tuple[str, str, str], ...] = (
-    ("opencv-contrib-python", "opencv-contrib-python", "图像/视频 I/O + 基础算法"),
+    ("opencv-python-headless", "opencv-python-headless", "图像/视频 I/O + 基础算法"),
     ("Pillow", "Pillow", "位图编解码、EXIF"),
     ("numpy", "numpy", "ndarray 运算"),
-    ("imageio", "imageio", "统一读写后端"),
     ("imageio-ffmpeg", "imageio-ffmpeg", "内置 FFmpeg 可执行文件"),
-    ("av (PyAV)", "av", "FFmpeg 绑定，精确抽帧/转码"),
-    ("scipy", "scipy", "滤波/插值"),
-    ("scikit-image", "scikit-image", "高质量缩放、质量指标"),
+    ("av", "av", "FFmpeg 绑定，精确抽帧/转码"),
     ("pillow-heif", "pillow-heif", "HEIC/HEIF/AVIF"),
     ("PySide6", "PySide6", "GUI"),
-    ("pyqtgraph", "pyqtgraph", "直方图/曲线"),
     ("qtawesome", "qtawesome", "图标"),
-    ("send2trash", "send2trash", "删除到回收站"),
-    ("typer", "typer", "命令行入口"),
-    ("rich", "rich", "终端输出/进度条"),
-    ("pywin32", "pywin32", "Windows 原生 API"),
-    ("PyInstaller", "pyinstaller", "打包 exe"),
-    ("Nuitka", "nuitka", "打包 exe（编译式）"),
 )
 
 

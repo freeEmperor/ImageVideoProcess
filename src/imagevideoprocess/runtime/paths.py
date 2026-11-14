@@ -27,7 +27,7 @@ def app_dir() -> Path:
     """返回应用目录（exe 所在目录 / 开发时的项目根目录）。"""
     if is_frozen():
         return Path(sys.executable).resolve().parent
-    # core/paths.py → core → imagevideoprocess → src → 项目根
+    # runtime/paths.py → runtime → imagevideoprocess → src → 项目根
     return Path(__file__).resolve().parents[3]
 
 

@@ -28,11 +28,11 @@ import numpy as np
 from PIL import Image
 
 from imagevideoprocess.core.errors import InvalidParameterError, ProcessingError
-from imagevideoprocess.core.image_ops import encode_to_bytes, get_exif, pil_format_for
-from imagevideoprocess.core.media_info import MediaInfo, probe, register_image_plugins
-from imagevideoprocess.core.paths import processed_dir, unique_path
 from imagevideoprocess.core.progress import CancelToken, ProgressFn, noop_progress
 from imagevideoprocess.core.result import ProcessResult
+from imagevideoprocess.media.image_ops import encode_to_bytes, get_exif, pil_format_for
+from imagevideoprocess.media.media_info import MediaInfo, probe, register_image_plugins
+from imagevideoprocess.runtime.paths import processed_dir, unique_path
 
 #: 可选倍率（需求规定 2x / 3x / 4x）
 SCALE_FACTORS: tuple[int, ...] = (2, 3, 4)

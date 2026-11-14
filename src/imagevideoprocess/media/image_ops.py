@@ -12,7 +12,7 @@ from typing import Any
 from PIL import Image
 
 from imagevideoprocess.core.errors import UnsupportedFormatError
-from imagevideoprocess.core.media_info import register_image_plugins
+from imagevideoprocess.media.media_info import register_image_plugins
 
 #: 扩展名（含点）→ Pillow 格式名
 PIL_FORMAT_BY_SUFFIX: dict[str, str] = {
@@ -113,7 +113,9 @@ def encode_to_bytes(
                 )
             target.save(buffer, format="PNG", optimize=True, compress_level=9)
         elif upper in {"AVIF", "HEIF", "HEIC"}:
-            image.save(buffer, format=upper, quality=int(quality or 85))
+            image.save(
+                buffer, format="HEIF" if upper == "HEIC" else upper, quality=int(quality or 85)
+            )
         elif upper == "BMP":
             # BMP 的 32 位带 alpha 版本 Windows 看图不一定认，这里拍平成 24 位
             flatten_alpha(image).save(buffer, format="BMP")

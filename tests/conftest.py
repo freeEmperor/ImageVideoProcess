@@ -26,7 +26,7 @@ def _pick_root() -> Path:
     candidates: list[Path] = []
     if os.environ.get("DSH_TEST_TMP"):
         candidates.append(Path(os.environ["DSH_TEST_TMP"]))
-    candidates.append(Path(__file__).resolve().parent / ".pytest-tmp")
+    candidates.append(Path(__file__).resolve().parent.parent / "build" / "test-tmp")
 
     for root in candidates:
         try:

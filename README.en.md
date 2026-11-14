@@ -2,54 +2,36 @@
 
 [中文](README.md) | English
 
-ImageVideoProcess is a Windows 11 desktop app for processing images and videos locally. Drag a file into the window, set the options, and start the job.
+A local Windows 11 image/video processing desktop application with a PySide6 GUI. Releases include their Python and FFmpeg runtimes.
 
 ## Features
 
-| Feature | What it does |
-| --- | --- |
-| Image and video compression | Compress toward a target file size. The output may exceed a very small target. |
-| Image and video resizing | Downscale to a specified resolution. The app adjusts video output dimensions to even numbers. |
-| Video frame extraction | Set the start and range in seconds or frames, then export PNG, JPEG, WebP, BMP, or TIFF images. |
-| Image and video format conversion | Convert an image or video to one of the output formats offered in the app. |
-| Audio extraction | Export audio from a video that contains an audio track. |
-| Image upscaling | Enlarge images by 2×, 3×, or 4× using interpolation and image enhancement. |
+Image/video compression, downscaling, frame extraction, image/video cropping, format conversion, audio extraction, and six classical image upscaling methods (2×/3×/4×). Existing validation, progress, cancellation and feature-switch confirmation are retained.
 
-## Run from source
+Image cropping respects EXIF orientation and exports transparent PNG files (`name_cut.png`). Video cropping exports `name_cut.mp4` with the selected time range and audio. Source runs save to the repository's `processed/`; packaged runs save beside the executable.
 
-Install Git and uv on Windows 11, then run the following commands in PowerShell. The project uses Python 3.13, which uv can install for you. [uv installation guide](https://docs.astral.sh/uv/getting-started/installation/)
+## Run and maintain
+
+Install uv, open PowerShell in the project directory, then run:
 
 ```powershell
-git clone https://github.com/freeEmperor/ImageVideoProcess.git
-cd ImageVideoProcess
-uv python install 3.13
-uv sync --locked --group gui --group media
-uv run --locked --group gui --group media imagevideoprocess
+.\scripts\project.ps1 sync
+.\scripts\project.ps1 run
+.\scripts\project.ps1 check
+.\scripts\project.ps1 diagnose
 ```
 
-## Use the app
+Only uv-managed CPython 3.13.14 is used. Python lives in `.uv-python`, project dependencies in `.venv`, and downloads/build cache in `.uv-cache`. The scripts restore process environment settings on exit and do not change global Python, proxy settings or your PowerShell profile. No custom `PYTHONPATH` is needed.
 
-1. Choose a tool from the sidebar. The interface is in Chinese.
-2. Drop a supported image or video into the workspace, or click the drop area to browse for a file.
-3. Review the file details, set the options, and click the action button. You can follow progress or cancel while the job runs.
-4. Click **打开 processed 文件夹** to open the output folder. When running from source, `processed/` is in the repository root. When running the packaged app, it is next to the `.exe`.
+For manual uv commands, explicitly load `. .\scripts\activate-env.ps1` in the current terminal, then use `uv sync --locked` and `uv run --locked ...`. Runtime dependencies are project dependencies; development and packaging tools have separate groups.
 
-## Build the Windows executable
-
-Run these commands from the repository root. When the build finishes, double-click `dist\ImageVideoProcess.exe` to launch the app.
+## Build
 
 ```powershell
-uv sync --locked --group gui --group media --group packaging
 .\scripts\build-exe.ps1
+.\scripts\build-exe.ps1 -Dir
 ```
 
-If the single-file build fails to extract temporary files at startup, pass `-Dir` to build a directory-based version and run `dist\ImageVideoProcess\ImageVideoProcess.exe`. Pass `-Console` to keep the console visible for startup errors.
+The default produces `dist/ImageVideoProcess.exe`. Directory mode produces `dist/ImageVideoProcess/`; distribute the whole directory. Add `-Console` for debugging. Both modes use `packaging/ImageVideoProcess.spec` and automatically sync the packaging group. One-file mode extracts its payload at startup.
 
-## Check the environment and run tests
-
-```powershell
-uv run --locked --group gui --group media python -m imagevideoprocess.core.envreport
-uv run --locked --group gui --group media pytest
-```
-
-The desktop interface is in [`src/imagevideoprocess/gui/`](src/imagevideoprocess/gui), the media processing code is in [`src/imagevideoprocess/core/`](src/imagevideoprocess/core), and tests are in [`tests/`](tests).
+See [architecture](docs/architecture.md), [development](docs/development.md), [packaging/validation](docs/packaging.md). Local handoff notes (`info.md`, `log.md`, `docs/history/`) remain outside version control. Media and processed outputs are never environment cleanup targets.

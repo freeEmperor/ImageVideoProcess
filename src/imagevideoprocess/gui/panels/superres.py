@@ -9,11 +9,11 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from imagevideoprocess.core import superres
 from imagevideoprocess.core.errors import InvalidParameterError
 from imagevideoprocess.gui.features import register_feature
 from imagevideoprocess.gui.widgets.inputs import ChevronComboBox
 from imagevideoprocess.gui.widgets.panel import FeaturePanel
+from imagevideoprocess.operations import superres
 
 
 @register_feature(

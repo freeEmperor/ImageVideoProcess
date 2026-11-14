@@ -31,9 +31,9 @@ from av.audio.stream import AudioStream
 from av.stream import Stream
 from av.video.stream import VideoStream
 
-from imagevideoprocess.core import audio_ops
 from imagevideoprocess.core.errors import ProcessingError, UnsupportedFormatError
 from imagevideoprocess.core.progress import CancelToken, ProgressFn, clamp_percent, noop_progress
+from imagevideoprocess.media import audio_ops
 
 #: 扩展名 → FFmpeg 输出容器名
 _OUTPUT_CONTAINERS: dict[str, str] = {

@@ -4,7 +4,7 @@
 - ``uv run python -m imagevideoprocess`` → 同样走这里
 - 打包成 exe 后双击 → 同样走这里
 
-环境自检界面已移到命令行：``uv run python -m imagevideoprocess.core.envreport``。
+环境自检界面已移到命令行：``uv run python -m imagevideoprocess.runtime.envreport``。
 """
 
 from __future__ import annotations
@@ -19,21 +19,14 @@ from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication
 
 import imagevideoprocess as pkg
-from imagevideoprocess.core.paths import processed_dir
 from imagevideoprocess.gui.theme import STYLESHEET, light_palette
+from imagevideoprocess.runtime.paths import processed_dir
 
 
 def _app_icon() -> QIcon | None:
     """打包时随附的图标（有就用，没有就跳过）。"""
-    candidates: list[Path] = []
-    bundle = getattr(sys, "_MEIPASS", None)
-    if bundle:
-        candidates.append(Path(bundle) / "assets" / "app.ico")
-    candidates.append(Path(__file__).resolve().parents[3] / "assets" / "app.ico")
-    for candidate in candidates:
-        if candidate.is_file():
-            return QIcon(str(candidate))
-    return None
+    candidate = Path(__file__).resolve().parent.parent / "resources" / "app.ico"
+    return QIcon(str(candidate)) if candidate.is_file() else None
 
 
 def _configure_environment() -> None:

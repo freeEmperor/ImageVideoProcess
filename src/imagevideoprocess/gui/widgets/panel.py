@@ -39,14 +39,14 @@ from PySide6.QtWidgets import (
 )
 
 from imagevideoprocess.core.errors import ProcessingError
-from imagevideoprocess.core.media_info import MediaInfo, probe
-from imagevideoprocess.core.paths import processed_dir
 from imagevideoprocess.core.progress import CancelToken, ProgressFn
 from imagevideoprocess.core.result import ProcessResult
 from imagevideoprocess.gui.features import Feature
 from imagevideoprocess.gui.widgets.dropzone import DropZone
 from imagevideoprocess.gui.widgets.filecard import FileInfoCard
 from imagevideoprocess.gui.workers import Task
+from imagevideoprocess.media.media_info import MediaInfo, probe
+from imagevideoprocess.runtime.paths import processed_dir
 
 #: 主操作按钮文字
 DEFAULT_ACTION_TEXT = "开始处理"

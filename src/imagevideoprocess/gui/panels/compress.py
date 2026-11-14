@@ -10,12 +10,12 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from imagevideoprocess.core import compress as core_compress
 from imagevideoprocess.core.errors import InvalidParameterError
-from imagevideoprocess.core.media_info import format_bytes
 from imagevideoprocess.gui.features import register_feature
 from imagevideoprocess.gui.widgets.inputs import ChevronComboBox, no_buttons
 from imagevideoprocess.gui.widgets.panel import FeaturePanel
+from imagevideoprocess.media.media_info import format_bytes
+from imagevideoprocess.operations import compress as core_compress
 
 #: 期望大小的可选单位
 _UNITS: tuple[tuple[str, str], ...] = (("KB", "kb"), ("MB", "mb"), ("GB", "gb"))
@@ -29,7 +29,7 @@ _DEFAULT_VALUE = 500.0
 
 @register_feature(
     key="compress",
-    title="图片 / 视频压缩",
+    title="图片视频压缩",
     subtitle="按目标体积压缩",
     description="指定期望体积，把图片或视频压到该大小以内（如把 10 MB 的照片压到 500 KB）",
     icon="fa5s.compress",

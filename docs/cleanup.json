@@ -1,0 +1,30 @@
+{
+  "retained": [
+    ".venv",
+    ".uv-python",
+    "build\\refactor-backup",
+    "processed"
+  ],
+  "removed": [
+    ".uv-packages",
+    "build\\refactor-backup\\old-venv",
+    "build\\refactor-backup\\dist",
+    "build\\baseline-work",
+    "build\\baseline-cache",
+    "build\\baseline",
+    "build\\release-validation",
+    "build\\ImageVideoProcess",
+    "build\\pyinstaller",
+    "build\\pyinstaller-cache",
+    ".mypy_cache",
+    ".ruff_cache",
+    ".pytest-tmp",
+    ".smoke-tmp",
+    "tests\\.pytest-tmp",
+    "ImageVideoProcess.spec",
+    ".env"
+  ],
+  "note": "Removed after 130 tests and all three release verification modes passed. Logical sizes are recorded in build-metrics.json; physical freed space was not measured.",
+  "uv_cache_removed_reported_mib": 357.9,
+  "post_cleanup_checks": "130 pytest; Ruff; mypy; 7 dependency smoke checks; environment diagnosis"
+}

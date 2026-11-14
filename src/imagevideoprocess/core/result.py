@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from imagevideoprocess.core.media_info import format_bytes
+from imagevideoprocess.media.media_info import format_bytes
 
 
 @dataclass

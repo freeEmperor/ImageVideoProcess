@@ -9,7 +9,7 @@ from __future__ import annotations
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QFrame, QGridLayout, QLabel, QWidget
 
-from imagevideoprocess.core.media_info import MediaInfo
+from imagevideoprocess.media.media_info import MediaInfo
 
 #: 每行放几组「标题: 值」
 _PAIRS_PER_ROW = 2

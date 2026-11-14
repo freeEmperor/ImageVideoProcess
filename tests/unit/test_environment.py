@@ -1,15 +1,10 @@
-"""环境健全性测试。
-
-跑法：`uv run pytest`
-这两条测试的价值在于：一旦有人漏装某个依赖组（例如只跑了
-`uv sync --group media` 而忘了 `--group gui`），CI / 本地测试会立刻报出来。
-"""
+"""验证实际运行依赖、FFmpeg 和项目解释器隔离。"""
 
 from __future__ import annotations
 
 import pytest
 
-from imagevideoprocess.core import envreport
+from imagevideoprocess.runtime import envreport
 
 
 def test_no_dependency_missing() -> None:
@@ -58,20 +53,25 @@ def test_pipeline_roundtrip(tmp_dir) -> None:
 
 #: 必须存在的发行包（与 pyproject.toml 的分组对应）
 _REQUIRED = {
-    "opencv-contrib-python",
+    "opencv-python-headless",
     "Pillow",
     "numpy",
-    "imageio",
     "imageio-ffmpeg",
     "av",
-    "scipy",
-    "scikit-image",
     "pillow-heif",
     "PySide6",
-    "pyqtgraph",
     "qtawesome",
-    "send2trash",
-    "typer",
-    "rich",
-    "pywin32",
 }
+
+
+def test_project_interpreter_and_dependency_isolation():
+    import sys
+    from pathlib import Path
+
+    import numpy
+
+    root = Path(__file__).resolve().parents[2]
+    assert Path(sys.prefix).resolve() == root / ".venv"
+    assert Path(sys.base_prefix).resolve().is_relative_to(root / ".uv-python")
+    assert Path(numpy.__file__).resolve().is_relative_to(root / ".venv")
+    assert not any(".uv-packages" in entry for entry in sys.path)

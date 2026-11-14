@@ -18,16 +18,16 @@ from pathlib import Path
 import av
 from PIL import Image
 
-from imagevideoprocess.core import audio_ops, video_ops
 from imagevideoprocess.core.errors import (
     InvalidParameterError,
     UnsupportedFormatError,
 )
-from imagevideoprocess.core.image_ops import encode_to_bytes, get_exif
-from imagevideoprocess.core.media_info import MediaInfo, probe, register_image_plugins
-from imagevideoprocess.core.paths import processed_dir, unique_path
 from imagevideoprocess.core.progress import CancelToken, ProgressFn, noop_progress
 from imagevideoprocess.core.result import ProcessResult
+from imagevideoprocess.media import audio_ops, video_ops
+from imagevideoprocess.media.image_ops import encode_to_bytes, get_exif
+from imagevideoprocess.media.media_info import MediaInfo, probe, register_image_plugins
+from imagevideoprocess.runtime.paths import processed_dir, unique_path
 
 #: 重新编码视频时的质量（CRF 越小越好；18 基本视觉无损）
 _VIDEO_CRF = 18

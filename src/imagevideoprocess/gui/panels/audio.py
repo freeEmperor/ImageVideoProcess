@@ -11,12 +11,12 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from imagevideoprocess.core import audio_ops
 from imagevideoprocess.core.errors import ProcessingError
-from imagevideoprocess.core.media_info import codec_display
 from imagevideoprocess.gui.features import register_feature
 from imagevideoprocess.gui.widgets.inputs import ChevronComboBox
 from imagevideoprocess.gui.widgets.panel import FeaturePanel
+from imagevideoprocess.media import audio_ops
+from imagevideoprocess.media.media_info import codec_display
 
 
 @register_feature(

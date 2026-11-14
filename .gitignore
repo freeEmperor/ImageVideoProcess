@@ -1,6 +1,7 @@
 # ---- uv / Python ----
 .venv/
 .uv-cache/
+.uv-packages/
 .uv-python/
 *.py[cod]
 __pycache__/
@@ -53,3 +54,9 @@ desktop.ini
 /提示词*.txt
 log.md
 info.md
+
+# Maintained build recipes
+!packaging/*.spec
+
+# Local handoff history and archived machine configuration
+/docs/history/

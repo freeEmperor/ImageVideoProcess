@@ -64,40 +64,6 @@ def t_opencv(tmp: Path) -> str:
     return f"OpenCV {cv2.__version__}  contrib={'yes' if ximgproc else 'no'}"
 
 
-def t_scipy() -> str:
-    import numpy as np
-    import scipy
-    from scipy import ndimage
-
-    blurred = ndimage.gaussian_filter(np.ones((16, 16)), sigma=1.0)
-    assert blurred.shape == (16, 16)
-    return f"SciPy {scipy.__version__}"
-
-
-def t_skimage() -> str:
-    import numpy as np
-    import skimage
-    from skimage.metrics import peak_signal_noise_ratio
-
-    a = np.zeros((16, 16), dtype=np.uint8)
-    b = np.full((16, 16), 10, dtype=np.uint8)
-    psnr = peak_signal_noise_ratio(a, b, data_range=255)
-    return f"scikit-image {skimage.__version__}  PSNR={psnr:.2f}dB"
-
-
-def t_imageio(tmp: Path) -> str:
-    import imageio.v3 as iio
-    import numpy as np
-
-    p = tmp / "iio.png"
-    iio.imwrite(p, np.full((20, 20, 3), 128, dtype=np.uint8))
-    back = iio.imread(p)
-    assert back.shape == (20, 20, 3)
-    import imageio
-
-    return f"imageio {imageio.__version__}"
-
-
 def t_imageio_ffmpeg() -> str:
     import imageio_ffmpeg
 
@@ -149,35 +115,6 @@ def t_pyside6() -> str:
     return f"PySide6 {qt_ver} (Qt {qVersion()})"
 
 
-def t_pyqtgraph() -> str:
-    import pyqtgraph
-
-    assert pyqtgraph.__version__
-    return f"pyqtgraph {pyqtgraph.__version__}"
-
-
-def t_send2trash() -> str:
-    import send2trash
-
-    assert callable(send2trash.send2trash)
-    return "send2trash 可导入"
-
-
-def t_win32() -> str:
-    import win32api  # noqa: F401
-    import win32con  # noqa: F401
-
-    return "pywin32 (win32api/win32con) 可导入"
-
-
-def t_typer_rich() -> str:
-    import importlib.metadata as md
-
-    import typer
-
-    return f"typer {typer.__version__} / rich {md.version('rich')}"
-
-
 def main() -> int:
     print(f"Python: {sys.version.split()[0]}  解释器: {sys.executable}\n")
 
@@ -185,9 +122,9 @@ def main() -> int:
     # 在权限被收紧的环境（沙箱、某些企业策略、受控目录）里会导致后续写入被拒。
     # 这里手工 mkdir，目录落在项目内，权限跟随父目录，最稳。
     root = Path(__file__).resolve().parent.parent
-    scratch = root / ".smoke-tmp"
+    scratch = root / "build" / "smoke-tmp"
     try:
-        scratch.mkdir(exist_ok=True)
+        scratch.mkdir(parents=True, exist_ok=True)
     except OSError:
         scratch = Path.cwd()
     tmp = scratch / f"run_{os.getpid()}_{int(time.time())}"
@@ -198,17 +135,10 @@ def main() -> int:
         check("numpy", t_numpy)
         check("Pillow", lambda: t_pillow(tmp))
         check("OpenCV", lambda: t_opencv(tmp))
-        check("SciPy", t_scipy)
-        check("scikit-image", t_skimage)
-        check("imageio", lambda: t_imageio(tmp))
         check("imageio-ffmpeg", t_imageio_ffmpeg)
         check("PyAV", lambda: t_av(tmp))
         check("pillow-heif", lambda: t_pillow_heif(tmp))
         check("PySide6", t_pyside6)
-        check("pyqtgraph", t_pyqtgraph)
-        check("send2trash", t_send2trash)
-        check("pywin32", t_win32)
-        check("typer/rich", t_typer_rich)
     finally:
         # 清理失败（权限受限环境）不影响测试结论
         with contextlib.suppress(Exception):

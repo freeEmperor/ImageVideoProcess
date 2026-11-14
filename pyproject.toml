@@ -19,65 +19,21 @@ classifiers = [
     "Topic :: Multimedia :: Video",
 ]
 
-# ---------------------------------------------------------------------------
-# 核心依赖：体积小、纯处理逻辑都会用到
-# ---------------------------------------------------------------------------
 dependencies = [
-    "numpy>=2.1",
-    "Pillow>=11.1",
-    "platformdirs>=4.3",
-    "rich>=13.9",
-    "typer>=0.15",
+    "numpy>=2.1", "Pillow>=11.1", "PySide6>=6.8.1", "qtawesome>=1.4.0",
+    "opencv-python-headless>=5.0,<5.1", "imageio-ffmpeg>=0.5.1",
+    "av>=13.1", "pillow-heif>=0.21",
 ]
 
 [project.scripts]
-# 安装后可用 `uv run imagevideoprocess` 直接启动 GUI
 imagevideoprocess = "imagevideoprocess.__main__:main"
 
 [dependency-groups]
-# ---------------------------------------------------------------------------
-# GUI：Windows 11 桌面界面
-# ---------------------------------------------------------------------------
-gui = [
-    "PySide6>=6.8.1",
-    "pyqtgraph>=0.13.7",     # 直方图 / 波形 / 预览曲线
-    "qtawesome>=1.4.0",      # FontAwesome/Material 图标，省去找图标资源
-]
-
-# ---------------------------------------------------------------------------
-# 图像 & 视频处理引擎
-# ---------------------------------------------------------------------------
-media = [
-    "opencv-contrib-python>=4.10.0.84",  # 非 headless：包含 cv2.imshow 等窗口能力
-    "imageio>=2.36",
-    "imageio-ffmpeg>=0.5.1",             # 随包提供 FFmpeg 可执行文件
-    "av>=13.1",                          # PyAV：直接调 FFmpeg 做精确抽帧 / 转码
-    "scipy>=1.15",                       # 滤波 / 插值 / 卷积
-    "scikit-image>=0.25",                # 高质量缩放、色彩空间转换、质量指标
-    "pillow-heif>=0.21",                 # HEIC / HEIF / AVIF 读写
-    "send2trash>=1.8.3",                 # 原地覆盖 / 删除文件时进回收站
-]
-
-# ---------------------------------------------------------------------------
-# 打包成单文件 exe（两套方案，二选一）
-# ---------------------------------------------------------------------------
-packaging = [
-    "pyinstaller>=6.11",   # 主力方案：配置简单、生态成熟
-    "nuitka>=2.6",         # 备选方案：编译为本机代码，启动更快、体积更小
-]
-
-# ---------------------------------------------------------------------------
-# 开发工具
-# ---------------------------------------------------------------------------
-dev = [
-    "pytest>=8.3",
-    "pytest-cov>=6.0",
-    "ruff>=0.9",
-    "mypy>=1.14",
-    "pywin32>=308",        # 任务栏进度条 / 文件关联 / 右键菜单
-]
+dev = ["pytest>=8.3", "pytest-cov>=6.0", "ruff>=0.9", "mypy>=1.14"]
+packaging = ["pyinstaller>=6.11"]
 
 [tool.uv]
+python-preference = "only-managed"
 package = true
 default-groups = ["dev"]
 
@@ -88,6 +44,7 @@ packages = ["src/imagevideoprocess"]
 # 工具配置
 # ---------------------------------------------------------------------------
 [tool.ruff]
+cache-dir = "build/ruff-cache"
 line-length = 100
 target-version = "py313"
 src = ["src", "tests"]
@@ -95,6 +52,7 @@ src = ["src", "tests"]
 extend-exclude = [
     ".venv",
     ".uv-cache",
+    ".uv-packages",
     ".uv-python",
     ".smoke-tmp",
     ".pytest-tmp",
@@ -114,6 +72,7 @@ ignore = [
 "tests/*" = ["S101"]
 
 [tool.mypy]
+cache_dir = "build/mypy-cache"
 python_version = "3.13"
 strict = false
 warn_unused_configs = true
@@ -124,62 +83,10 @@ files = ["src"]
 [tool.pytest.ini_options]
 minversion = "8.0"
 testpaths = ["tests"]
-pythonpath = ["src"]
+pythonpath = ["tests/support"]
 # -p no:cacheprovider：pytest 的缓存写入用 mkdtemp（0o700 目录），在权限被收紧的
 # 环境下会报 WinError 5；关掉它可去掉噪音，代价只是没有 --lf/--ff 增量运行。
-# -o cache_dir=... 一并钉住位置，否则它会在项目根目录散落 pytest-cache-files-* 目录。
-addopts = "-ra --strict-markers -p no:cacheprovider -o cache_dir=.pytest-tmp/.cache"
+addopts = "-ra --strict-markers -p no:cacheprovider"
 filterwarnings = ["ignore::DeprecationWarning"]
 # 说明：临时目录由 tests/conftest.py 的 tmp_dir fixture 提供（普通 mkdir，
 # 不用 tempfile.mkdtemp）。如需换位置，设环境变量 DSH_TEST_TMP。
-
-# ---------------------------------------------------------------------------
-# PyInstaller：见 README 10.2。推荐直接用 scripts/build-exe.ps1，它封装了这三个必需参数：
-#   --paths src               src 布局 + 可编辑安装，静态分析跟不进，漏了会打出一运行就退出的 exe
-#   --icon assets/app.ico     exe 文件本身的图标（先跑 scripts/make_icon.py 生成）
-#   --add-data "assets/app.ico;assets"   让运行时也能读到图标（代码用 sys._MEIPASS 定位）
-#
-#   uv run pyinstaller --noconfirm --clean --name ImageVideoProcess \
-#       --onefile --windowed --paths src --icon assets/app.ico \
-#       --add-data "assets/app.ico;assets" src/imagevideoprocess/__main__.py
-# ---------------------------------------------------------------------------
-[tool.pyinstaller]
-name = "ImageVideoProcess"
-windowed = true
-onefile = true
-icon = "assets/app.ico"
-# src 布局 + 可编辑安装，PyInstaller 静态分析跟不进去，必须显式给源码路径
-paths = ["src"]
-# 实测不加排除：单文件约 73.5 MB。逐条排除并重新验证后再启用。
-excludes = [
-    "PySide6.QtWebEngineCore",
-    "PySide6.QtWebEngineWidgets",
-    "PySide6.Qt3DCore",
-    "PySide6.QtCharts",
-    "PySide6.QtDataVisualization",
-    "PySide6.QtQuick3D",
-    "PySide6.QtMultimediaWidgets",
-    "tkinter",
-    "matplotlib",
-    "IPython",
-    "pytest",
-]
-
-# ---------------------------------------------------------------------------
-# Nuitka：见 README 7.2。必须用 `uv run --env-file .env` 才能拿到
-# NUITKA_CACHE_DIR（否则会在 %LOCALAPPDATA% 上 FATAL）。
-#   uv run --env-file .env python -m nuitka --mode=onefile --enable-plugin=pyside6 \
-#       --windows-console-mode=disable --include-package=imagevideoprocess \
-#       src/imagevideoprocess/__main__.py
-# ---------------------------------------------------------------------------
-[tool.nuitka]
-python-flag = ["-O", "-m"]
-enable-plugin = ["pyside6"]
-include-package = ["imagevideoprocess"]
-windows-console-mode = "disable"
-windows-icon-from-ico = "assets/app.ico"
-company-name = "ImageVideoProcess"
-product-name = "ImageVideoProcess"
-file-version = "0.1.0.0"
-product-version = "0.1.0.0"
-assume-yes-for-downloads = true

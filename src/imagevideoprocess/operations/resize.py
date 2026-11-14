@@ -13,12 +13,12 @@ from pathlib import Path
 from PIL import Image
 
 from imagevideoprocess.core.errors import InvalidParameterError, UnsupportedFormatError
-from imagevideoprocess.core.image_ops import pil_format_for, save_image
-from imagevideoprocess.core.media_info import probe, register_image_plugins
-from imagevideoprocess.core.paths import processed_dir, unique_path
 from imagevideoprocess.core.progress import CancelToken, ProgressFn, noop_progress
 from imagevideoprocess.core.result import ProcessResult
-from imagevideoprocess.core.video_ops import TranscodeSpec, analyze, transcode
+from imagevideoprocess.media.image_ops import pil_format_for, save_image
+from imagevideoprocess.media.media_info import probe, register_image_plugins
+from imagevideoprocess.media.video_ops import TranscodeSpec, analyze, transcode
+from imagevideoprocess.runtime.paths import processed_dir, unique_path
 
 #: 视频缩放的编码质量（CRF 越小越好，18 接近视觉无损）
 _VIDEO_CRF = 18

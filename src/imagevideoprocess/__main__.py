@@ -16,6 +16,12 @@ import sys
 
 def main() -> int:
     """启动 GUI。返回进程退出码。"""
+    if len(sys.argv) == 3 and sys.argv[1] == "--verify-release":
+        from pathlib import Path
+
+        from imagevideoprocess.runtime.verify import run as verify
+
+        return verify(Path(sys.argv[2]).resolve())
     from imagevideoprocess.gui.app import run
 
     return run(sys.argv)

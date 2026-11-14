@@ -10,11 +10,11 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from imagevideoprocess.core import frames as core_frames
 from imagevideoprocess.core.errors import InvalidParameterError
 from imagevideoprocess.gui.features import register_feature
 from imagevideoprocess.gui.widgets.inputs import ChevronComboBox, no_buttons
 from imagevideoprocess.gui.widgets.panel import FeaturePanel
+from imagevideoprocess.operations import frames as core_frames
 
 #: 单位下拉项：(显示名, 内部值)
 _UNIT_ITEMS: tuple[tuple[str, str], ...] = (

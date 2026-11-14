@@ -3,10 +3,11 @@
 from __future__ import annotations
 
 import pytest
-
-from imagevideoprocess.core import media_info, resize
-from imagevideoprocess.core.errors import InvalidParameterError
 from media_factory import make_image, make_video
+
+from imagevideoprocess.core.errors import InvalidParameterError
+from imagevideoprocess.media import media_info
+from imagevideoprocess.operations import resize
 
 
 def test_resize_image(tmp_dir) -> None:

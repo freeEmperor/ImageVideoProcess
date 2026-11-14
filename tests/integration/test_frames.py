@@ -3,10 +3,11 @@
 from __future__ import annotations
 
 import pytest
-
-from imagevideoprocess.core import frames, media_info
-from imagevideoprocess.core.errors import InvalidParameterError
 from media_factory import make_image, make_video
+
+from imagevideoprocess.core.errors import InvalidParameterError
+from imagevideoprocess.media import media_info
+from imagevideoprocess.operations import frames
 
 FPS = 30
 SECONDS = 3.0

@@ -10,11 +10,11 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from imagevideoprocess.core import resize as core_resize
 from imagevideoprocess.core.errors import InvalidParameterError
 from imagevideoprocess.gui.features import register_feature
 from imagevideoprocess.gui.widgets.inputs import no_buttons
 from imagevideoprocess.gui.widgets.panel import FeaturePanel
+from imagevideoprocess.operations import resize as core_resize
 
 #: 分辨率输入上限
 _SIZE_MAX = 65535
@@ -26,7 +26,7 @@ _DEFAULT_HEIGHT = 720
 
 @register_feature(
     key="resize",
-    title="图片 / 视频缩放",
+    title="图片视频缩放",
     subtitle="缩放到指定分辨率",
     description="缩放到指定分辨率；目标宽、高都必须小于原分辨率（只做缩小）",
     icon="fa5s.expand-arrows-alt",

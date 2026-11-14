@@ -30,8 +30,6 @@ from PySide6.QtWidgets import (
 
 import imagevideoprocess as pkg
 from imagevideoprocess.core.errors import ProcessingError
-from imagevideoprocess.core.media_info import probe
-from imagevideoprocess.core.paths import processed_dir
 from imagevideoprocess.gui import features as feature_registry
 
 # 导入各功能面板模块（import 的副作用就是把它们注册进功能列表，
@@ -42,6 +40,8 @@ from imagevideoprocess.gui.theme import STYLESHEET
 from imagevideoprocess.gui.widgets.icons import icon
 from imagevideoprocess.gui.widgets.panel import FeaturePanel
 from imagevideoprocess.gui.widgets.toast import Toast
+from imagevideoprocess.media.media_info import probe
+from imagevideoprocess.runtime.paths import processed_dir
 
 #: 左侧列表项的固定高度
 _ITEM_HEIGHT = 60

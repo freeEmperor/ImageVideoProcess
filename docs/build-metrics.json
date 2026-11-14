@@ -1,0 +1,11 @@
+{
+  "old_exe_bytes": 220448766,
+  "baseline_current_features_bytes": 220447307,
+  "onefile_bytes": 177638039,
+  "onedir_bytes": 477931627,
+  "venv_bytes": 1124131139,
+  "old_target_bytes": 1334502209,
+  "old_venv_bytes": 1351007373,
+  "duplicate_dll_groups": [],
+  "sha256": "6520ed0332303ff5bd664245baf0f236594c0e0591c823324bec66473d04e9b4"
+}

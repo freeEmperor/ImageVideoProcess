@@ -9,17 +9,17 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from imagevideoprocess.core import convert as core_convert
 from imagevideoprocess.core.errors import InvalidParameterError, ProcessingError
-from imagevideoprocess.core.media_info import MediaInfo
 from imagevideoprocess.gui.features import register_feature
 from imagevideoprocess.gui.widgets.inputs import ChevronComboBox
 from imagevideoprocess.gui.widgets.panel import FeaturePanel
+from imagevideoprocess.media.media_info import MediaInfo
+from imagevideoprocess.operations import convert as core_convert
 
 
 @register_feature(
     key="convert",
-    title="图片 / 视频格式转换",
+    title="图片视频格式转换",
     subtitle="转成别的格式",
     description="把图片或视频转成其它格式；只换格式不压缩体积，"
     "视频在兼容时走无损转封装（不重新编码）",

@@ -4,10 +4,10 @@ from __future__ import annotations
 
 import av
 import pytest
-
-from imagevideoprocess.core import audio_ops
-from imagevideoprocess.core.errors import ProcessingError, UnsupportedFormatError
 from media_factory import make_image, make_video
+
+from imagevideoprocess.core.errors import ProcessingError, UnsupportedFormatError
+from imagevideoprocess.media import audio_ops
 
 
 def _audio_streams(path) -> list[object]:

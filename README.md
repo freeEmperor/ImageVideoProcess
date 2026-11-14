@@ -2,54 +2,61 @@
 
 中文 | [English](README.en.md)
 
-ImageVideoProcess 是一款面向 Windows 11 的桌面图片和视频处理工具。你可以把文件拖进窗口，调整参数后在本地完成处理。
+Windows 11 本地图片、视频处理应用，使用 PySide6 图形界面。发布包无需安装 Python 或系统 FFmpeg。
 
 ## 功能
 
-| 功能 | 说明 |
+| 功能 | 行为 |
 | --- | --- |
-| 图片和视频压缩 | 按目标体积压缩。目标过小时，实际输出可能大于目标值。 |
-| 图片和视频缩放 | 将图片或视频缩小到指定分辨率。视频输出的宽和高会调整为偶数。 |
-| 视频抽帧 | 按时间或帧号设置起点和提取范围，输出 PNG、JPEG、WebP、BMP 或 TIFF。 |
-| 图片和视频格式转换 | 将图片或视频转换为界面中可选的输出格式。 |
-| 视频音频提取 | 从带音轨的视频导出音频。 |
-| 图片超分辨率 | 使用插值和图像增强算法放大图片，支持 2×、3× 和 4×。 |
+| 图片 / 视频压缩 | 按目标体积处理；目标过小时可能无法达到，界面会提示实际结果 |
+| 图片 / 视频缩放 | 缩小至指定分辨率；视频编码尺寸按现有规则调整 |
+| 视频抽帧 | 按秒数或帧号指定起点及范围，支持 PNG/JPEG/WebP/BMP/TIFF |
+| 图片 / 视频裁剪 | 图片按显示方向裁剪并保留透明度；视频裁剪画面与时段并保留音轨 |
+| 格式转换 | 使用界面列出的图片或视频格式；保留现有质量和转封装规则 |
+| 视频音频提取 | 导出界面列出的可用音频格式 |
+| 图片超分 | 六种经典插值 / 增强方法，支持 2×、3×、4×，不含 AI 模型 |
+
+选择左侧功能后拖入文件或点击选择文件，调整参数再执行。保留输入校验、进度、取消、切换确认及完成提示。
+
+图片裁剪导出 `原名_cut.png`；视频裁剪导出 `原名_cut.mp4`。图片隐藏时间控件；视频可调整预览位置、像素区域及起止时间。裁剪同名文件追加编号。
+
+源码版输出到项目根目录 `processed/`；发布版输出到 EXE 同级 `processed/`。用户媒体和处理结果不属于环境清理对象。
 
 ## 从源码运行
 
-在 Windows 11 上安装 Git 和 uv，然后在 PowerShell 中执行下面的命令。项目使用 Python 3.13，uv 可以为你安装所需版本。 [uv 安装指南](https://docs.astral.sh/uv/getting-started/installation/)
+先安装 uv，在项目目录打开 PowerShell：
 
 ```powershell
-git clone https://github.com/freeEmperor/ImageVideoProcess.git
-cd ImageVideoProcess
-uv python install 3.13
-uv sync --locked --group gui --group media
-uv run --locked --group gui --group media imagevideoprocess
+.\scripts\project.ps1 sync
+.\scripts\project.ps1 run
 ```
 
-## 使用方法
+项目使用 uv 下载和管理的 **CPython 3.13.14**，解释器存放在 `.uv-python/`，依赖在 `.venv/`，缓存位于 `.uv-cache/`。只允许 uv 托管 Python；不使用系统 Python，不需要手工设置 `PYTHONPATH`。首次同步可按需下载解释器。脚本不更改代理、用户 profile 或全局环境变量，退出时恢复会话设置。
 
-1. 从窗口左侧选择功能。
-2. 将适用的图片或视频拖到工作区，或点击拖放区选择文件。
-3. 查看文件信息，填写处理参数，再点击操作按钮。处理期间可以查看进度或取消任务。
-4. 点击「打开 processed 文件夹」查看结果。从源码运行时，`processed/` 位于仓库根目录。从打包的 `.exe` 启动时，它位于可执行文件旁边。
-
-## 构建 Windows 可执行文件
-
-在项目根目录运行以下命令。打包完成后可以双击 `dist\ImageVideoProcess.exe` 启动。
+## 测试与诊断
 
 ```powershell
-uv sync --locked --group gui --group media --group packaging
-.\scripts\build-exe.ps1
+.\scripts\project.ps1 check
+.\scripts\project.ps1 diagnose
 ```
 
-如果单文件版启动时报临时文件解压错误，可用 `-Dir` 构建文件夹版，然后运行 `dist\ImageVideoProcess\ImageVideoProcess.exe`。如果需要查看启动错误，可以用 `-Console` 保留控制台。
+开发者手工操作 uv 时，可在当前终端执行 `. .\scripts\activate-env.ps1`，再用 `uv sync --locked`、`uv run --locked pytest` 等。这个显式加载方式会保留本终端的项目路径变量；日常操作推荐上面的封装脚本。
 
-## 环境检查和测试
+## 构建发布包
 
 ```powershell
-uv run --locked --group gui --group media python -m imagevideoprocess.core.envreport
-uv run --locked --group gui --group media pytest
+.\scripts\build-exe.ps1          # dist/ImageVideoProcess.exe
+.\scripts\build-exe.ps1 -Dir     # dist/ImageVideoProcess/，整个目录一起分发
 ```
 
-桌面界面位于 [`src/imagevideoprocess/gui/`](src/imagevideoprocess/gui)，媒体处理逻辑位于 [`src/imagevideoprocess/core/`](src/imagevideoprocess/core)，测试位于 [`tests/`](tests)。
+`-Console` 用于构建带控制台的排障版本。脚本自动同步打包依赖，唯一构建配置为 `packaging/ImageVideoProcess.spec`。单文件启动时会解压；若运行位置限制临时解压，可使用文件夹版。
+
+## 维护资料
+
+- [架构与目录](docs/architecture.md)
+- [环境与开发](docs/development.md)
+- [打包与验证](docs/packaging.md)
+
+本地交接信息 `info.md`、变更日志 `log.md` 及 `docs/history/` 按原有隐私约定保留在工作区，不随仓库发布。
+
+所有包通过 uv 管理；依赖声明与 `uv.lock` 一起维护。运行依赖、开发工具和打包工具分别管理。

@@ -22,12 +22,12 @@ from pathlib import Path
 import av
 
 from imagevideoprocess.core.errors import InvalidParameterError, ProcessingError
-from imagevideoprocess.core.image_ops import PIL_FORMAT_BY_SUFFIX, QUALITY_FORMATS
-from imagevideoprocess.core.media_info import MediaInfo, probe
-from imagevideoprocess.core.paths import processed_dir
 from imagevideoprocess.core.progress import CancelToken, ProgressFn, clamp_percent, noop_progress
 from imagevideoprocess.core.result import ProcessResult
-from imagevideoprocess.core.video_ops import stream_fps
+from imagevideoprocess.media.image_ops import PIL_FORMAT_BY_SUFFIX, QUALITY_FORMATS
+from imagevideoprocess.media.media_info import MediaInfo, probe
+from imagevideoprocess.media.video_ops import stream_fps
+from imagevideoprocess.runtime.paths import processed_dir
 
 #: 单位：秒 / 帧
 UNIT_SECONDS = "s"
@@ -223,7 +223,7 @@ def _frame_index(frame: av.VideoFrame, fps: float, origin: float) -> int | None:
 
 def _save_frame(frame: av.VideoFrame, dest: Path, pil_format: str, quality: int | None) -> None:
     """把一帧写成图片文件。"""
-    from imagevideoprocess.core.image_ops import encode_to_bytes
+    from imagevideoprocess.media.image_ops import encode_to_bytes
 
     image = frame.to_image()
     dest.write_bytes(encode_to_bytes(image, pil_format, quality=quality))
